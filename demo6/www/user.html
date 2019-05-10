@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="ajax.js" charset="utf-8"></script>
+  <script>
+    window.onload = function () {
+
+      const userText = document.getElementById("user");
+      const passText = document.getElementById("pass");
+      const regBtn = document.getElementById("reg");
+      const loginBtn = document.getElementById("login");
+
+      regBtn.onclick = function () {
+        ajax({
+          url: '/user',
+          type: 'get',
+          data: {
+            act: 'reg',
+            user: userText.value,
+            pass: passText.value,
+          },
+          success: function(res) {
+            const json = eval('(' + res + ')');
+            if(json.ok) {
+              alert(json.msg);
+            } else {
+              alert('注册失败' + json.msg);
+            }
+          },
+          error: function () {
+            alert('通信错误');
+          }
+        });
+      };
+      loginBtn.onclick = function () {
+        ajax({
+          url: '/user',
+          type: 'get',
+          data: {
+            act: 'login',
+            user: userText.value,
+            pass: passText.value,
+          },
+          success: function(res) {
+            const json = eval('(' + res + ')');
+            if(json.ok) {
+              alert(json.msg);
+            } else {
+              alert('登录失败' + json.msg);
+            }
+          },
+          error: function () {
+            alert('通信错误');
+          }
+        });
+      };
+    };
+  </script>
+</head>
+<body>
+  用户名：<input type="text" id="user" /><br />
+  密码：<input type="password" id="pass" /><br />
+  <input type="button" value="注册" id="reg">
+  <input type="button" value="登录" id="login">
+</body>
+</html>
